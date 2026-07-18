@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WeakPoint AI — גלה איפה העסק שלך יפול לפני שזה קורה</title>
+  <meta name="description" content="AI שמנתח את הרעיון העסקי שלך ומראה בדיוק איך הוא ייפול — לפני שאתה משקיע זמן וכסף.">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0B0A;
+      --surface: #141413;
+      --surface2: #1C1C1A;
+      --border: #252523;
+      --border2: #333330;
+      --text: #EDE9E1;
+      --text2: #8A8882;
+      --text3: #4A4A47;
+      --red: #D63030;
+      --red-dim: #1E0A0A;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    .logo-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 6px var(--red);
+    }
+    .nav-cta {
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.15s;
+    }
+    .nav-cta:hover { opacity: 0.85; }
+
+    /* HERO */
+    .hero {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 80px 24px 64px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--red-dim);
+      border: 1px solid #5A1A1A;
+      color: var(--red);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 46px);
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span { color: var(--red); }
+    .hero p {
+      font-size: 17px;
+      color: var(--text2);
+      margin-bottom: 36px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+    .hero-cta:hover { opacity: 0.88; }
+    .hero-sub {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--text3);
+    }
+
+    /* DIVIDER */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* HOW IT WORKS */
+    .section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+    .section-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .section h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      line-height: 1.3;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 600px) { .steps { grid-template-columns: 1fr; } }
+
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .step-num {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--red);
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+    }
+    .step-card h3 {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .step-card p {
+      font-size: 14px;
+      color: var(--text2);
+      line-height: 1.6;
+    }
+
+    /* WHAT YOU GET */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
+
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .feature-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--red-dim);
+      border: 1px solid #3A1010;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .feature h4 {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .feature p {
+      font-size: 13px;
+      color: var(--text2);
+      line-height: 1.55;
+    }
+
+    /* FOR WHO */
+    .who-grid {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .who-tag {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 14px;
+      color: var(--text2);
+    }
+
+    /* CTA BOTTOM */
+    .cta-bottom {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .cta-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 64px 24px;
+      text-align: center;
+    }
+    .cta-inner h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      line-height: 1.3;
+    }
+    .cta-inner p {
+      font-size: 15px;
+      color: var(--text2);
+      margin-bottom: 32px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text3);
+      border-top: 1px solid var(--border);
+    }
+
+    /* DEMO PREVIEW */
+    .demo-preview {
+      max-width: 640px;
+      margin: 48px auto 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .demo-bar {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .demo-content { padding: 20px 24px; }
+    .demo-stat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .demo-stat-label { font-size: 12px; color: var(--text3); }
+    .demo-stat-val { font-size: 28px; font-weight: 600; color: var(--red); }
+    .demo-bar-track {
+      height: 4px; background: var(--surface2); border-radius: 2px; margin-bottom: 16px;
+    }
+    .demo-bar-fill { height: 100%; width: 73%; background: var(--red); border-radius: 2px; }
+    .demo-risk {
+      background: var(--red-dim);
+      border: 1px solid #3A1010;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+    }
+    .demo-badge {
+      font-size: 10px;
+      color: var(--red);
+      background: #3A101022;
+      border: 1px solid #5A1A1A;
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="logo">
+      <div class="logo-dot"></div>
+      WeakPoint AI
+    </div>
+    <a href="app.html" class="nav-cta">נסה חינם</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <div class="logo-dot" style="width:6px;height:6px;box-shadow:none;"></div>
+      בטא פתוחה — חינמי לגמרי
+    </div>
+    <h1>גלה איפה העסק שלך <span>ייפול</span><br>לפני שזה קורה</h1>
+    <p>WeakPoint AI מנתח את הרעיון העסקי שלך ומראה לך בדיוק את נקודות התורפה, תרחיש הכישלון הסביר ביותר, ומה לעשות עכשיו.</p>
+    <a href="app.html" class="hero-cta">נתח את הרעיון שלי ←</a>
+    <p class="hero-sub">ניתוח ראשון חינמי · לא נדרשת הרשמה</p>
+
+    <!-- DEMO PREVIEW -->
+    <div class="demo-preview">
+      <div class="demo-bar">
+        <div class="demo-dot" style="background:#FF5F57;"></div>
+        <div class="demo-dot" style="background:#FFBD2E;"></div>
+        <div class="demo-dot" style="background:#28CA41;"></div>
+        <span style="margin-right:auto;font-size:12px;color:var(--text3);">דוח WeakPoint AI</span>
+      </div>
+      <div class="demo-content">
+        <div class="demo-stat">
+          <span class="demo-stat-label">הסתברות כישלון</span>
+          <span class="demo-stat-val">73%</span>
+        </div>
+        <div class="demo-bar-track"><div class="demo-bar-fill"></div></div>
+        <div class="demo-risk"><span class="demo-badge">קריטי</span> שוק יעד לא מוגדר מספיק</div>
+        <div class="demo-risk"><span class="demo-badge">גבוה</span> מתחרה גדול יכול להעתיק תוך 3 חודשים</div>
+        <div class="demo-risk"><span class="demo-badge">בינוני</span> מנגנון רכישת לקוחות לא ברור</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="section-label">איך זה עובד</div>
+    <h2>שלושה צעדים לניתוח מלא</h2>
+    <div class="steps">
+      <div class="step-card">
+        <div class="step-num">שלב 01</div>
+        <h3>תאר את הרעיון</h3>
+        <p>מלא פרטים בסיסיים — הרעיון, שוק היעד, מודל ההכנסות, והמשאבים שלך.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">שלב 02</div>
+        <h3>ה-AI מנתח</h3>
+        <p>מנוע ה-AI מזהה את נקודות התורפה, הסיכונות הקריטיים, ומה המתחרים יעשו.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">שלב 03</div>
+        <h3>קבל דוח מלא</h3>
+        <p>הסתברות כישלון, תרחיש, ורשימת תיקונים מסודרת לפי דחיפות.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- WHAT YOU GET -->
+  <section class="section">
+    <div class="section-label">מה מקבלים</div>
+    <h2>ניתוח שמנהלי סיכונים משלמים עליו אלפים</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <div>
+          <h4>הסתברות כישלון</h4>
+          <p>ציון מ-0 עד 100 המבוסס על ניתוח עמוק של הרעיון מול השוק.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚠️</div>
+        <div>
+          <h4>סיכונות מדורגים</h4>
+          <p>רשימת הסיכונות הקריטיים לפי חומרה — קריטי, גבוה, בינוני.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎬</div>
+        <div>
+          <h4>תרחיש הכישלון</h4>
+          <p>תיאור קונקרטי של איך העסק ייפול — כדי שתדע מה למנוע.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🥊</div>
+        <div>
+          <h4>מה המתחרים יעשו</h4>
+          <p>ניתוח איך השחקנים הקיימים יגיבו כשתיכנס לשוק.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔧</div>
+        <div>
+          <h4>רשימת תיקונים</h4>
+          <p>מה לשנות עכשיו — מסודר לפי עדיפות, ספציפי ומעשי.</p>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎯</div>
+        <div>
+          <h4>הדבר האחד הכי חשוב</h4>
+          <p>אם יש רק דבר אחד לעשות עכשיו — WeakPoint יגיד לך מה הוא.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- FOR WHO -->
+  <section class="section">
+    <div class="section-label">מי משתמש</div>
+    <h2>לכל מי שרוצה לדעת את האמת לפני שמשקיעים</h2>
+    <div class="who-grid">
+      <div class="who-tag">יזמים בשלב הרעיון</div>
+      <div class="who-tag">מנהלים שמשיקים מוצר חדש</div>
+      <div class="who-tag">סטארטאפים לפני גיוס</div>
+      <div class="who-tag">עסקים קטנים שרוצים לצמוח</div>
+      <div class="who-tag">משקיעים שמעריכים דילים</div>
+      <div class="who-tag">יועצים עסקיים</div>
+    </div>
+  </section>
+
+  <!-- CTA BOTTOM -->
+  <div class="cta-bottom">
+    <div class="cta-inner">
+      <h2>מה נקודת התורפה<br>של הרעיון שלך?</h2>
+      <p>גלה עכשיו — לפני שהשוק יגלה בשבילך.</p>
+      <a href="app.html" class="hero-cta">התחל ניתוח חינמי ←</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>WeakPoint AI · בטא · <a href="mailto:feedback@weakpoint.ai" style="color:var(--text2);">פידבק? כתוב לנו</a></p>
+  </footer>
+
+</body>
+</html>
