@@ -295,7 +295,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            system: 'You are a brutally honest business analyst. Respond ONLY with valid JSON, no markdown, no backticks.',
+            system: 'You are a brutally honest business analyst. Respond ONLY with a raw JSON object. No markdown. No backticks. No code fences. Start your response with { and end with }.',
             messages: [{ role: 'user', content: userPrompt }]
           })
         });
